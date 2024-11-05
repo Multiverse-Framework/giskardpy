@@ -1,0 +1,11 @@
+<launch>
+    <node pkg="giskardpy" type="ur5e.py" name="giskard" output="screen"/>
+
+    <node pkg="giskardpy" type="interactive_marker.py" name="giskard_interactive_marker" output="screen">
+        <rosparam param="enable_self_collision">False</rosparam>
+        <rosparam param="interactive_marker_chains">
+            - [base_link, wrist_3_link]
+        </rosparam>
+    </node>
+
+</launch>

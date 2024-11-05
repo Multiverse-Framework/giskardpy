@@ -79,6 +79,40 @@ class PR2JointTrajServerMujocoInterface(RobotInterfaceConfig):
                                    track_only_velocity=True,
                                    joint_name=self.drive_joint_name)
 
+class PR2JointTrajServerMultiverseInterface(RobotInterfaceConfig):
+    map_name: str
+    localization_joint_name: str
+    odom_link_name: str
+    drive_joint_name: str
+
+    def __init__(self,
+                 map_name: str = 'map',
+                 localization_joint_name: str = 'localization',
+                 odom_link_name: str = 'pr2',
+                 drive_joint_name: str = 'brumbrum'):
+        self.map_name = map_name
+        self.localization_joint_name = localization_joint_name
+        self.odom_link_name = odom_link_name
+        self.drive_joint_name = drive_joint_name
+
+    def setup(self):
+        self.sync_6dof_joint_with_tf_frame(joint_name=self.localization_joint_name,
+                                           tf_parent_frame=self.map_name,
+                                           tf_child_frame=self.odom_link_name)
+        self.sync_joint_state_topic('/world/pr2/joint_states')
+        self.sync_odometry_topic('/odom', self.drive_joint_name)
+        self.add_follow_joint_trajectory_server(
+            namespace='/world/pr2/torso_controller/follow_joint_trajectory',
+            state_topic='/world/pr2/torso_controller/state')
+        self.add_follow_joint_trajectory_server(
+            namespace='/world/pr2/left_arm_controller/follow_joint_trajectory',
+            state_topic='/world/pr2/left_arm_controller/state')
+        self.add_follow_joint_trajectory_server(
+            namespace='/world/pr2/right_arm_controller/follow_joint_trajectory',
+            state_topic='/world/pr2/right_arm_controller/state')
+        self.add_base_cmd_velocity(cmd_vel_topic='/cmd_vel',
+                                   track_only_velocity=True,
+                                   joint_name=self.drive_joint_name)
 
 class PR2VelocityMujocoInterface(RobotInterfaceConfig):
     map_name: str
