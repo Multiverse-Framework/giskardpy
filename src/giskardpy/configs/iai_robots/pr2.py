@@ -102,14 +102,11 @@ class PR2JointTrajServerMultiverseInterface(RobotInterfaceConfig):
         self.sync_joint_state_topic('/world/pr2/joint_states')
         self.sync_odometry_topic('/odom', self.drive_joint_name)
         self.add_follow_joint_trajectory_server(
-            namespace='/world/pr2/torso_controller/follow_joint_trajectory',
-            state_topic='/world/pr2/torso_controller/state')
+            namespace='/world/pr2/torso_controller')
         self.add_follow_joint_trajectory_server(
-            namespace='/world/pr2/left_arm_controller/follow_joint_trajectory',
-            state_topic='/world/pr2/left_arm_controller/state')
+            namespace='/world/pr2/left_arm_controller')
         self.add_follow_joint_trajectory_server(
-            namespace='/world/pr2/right_arm_controller/follow_joint_trajectory',
-            state_topic='/world/pr2/right_arm_controller/state')
+            namespace='/world/pr2/right_arm_controller')
         self.add_base_cmd_velocity(cmd_vel_topic='/cmd_vel',
                                    track_only_velocity=True,
                                    joint_name=self.drive_joint_name)
