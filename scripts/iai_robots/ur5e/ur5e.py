@@ -2,10 +2,10 @@
 import rospy
 
 from giskardpy.configs.giskard import Giskard
-from giskardpy.configs.iai_robots.ur5e import WorldWithUr5eConfig, Ur5eJointTrajInterfaceConfig
+from giskardpy.configs.iai_robots.ur5e import Ur5eWorldConfig, Ur5eJointTrajServerMultiverseInterface
 
 if __name__ == '__main__':
     rospy.init_node('giskard')
-    giskard = Giskard(world_config=WorldWithUr5eConfig(),
-                      robot_interface_config=Ur5eJointTrajInterfaceConfig())
+    giskard = Giskard(world_config=Ur5eWorldConfig(),
+                      robot_interface_config=Ur5eJointTrajServerMultiverseInterface())
     giskard.live()
