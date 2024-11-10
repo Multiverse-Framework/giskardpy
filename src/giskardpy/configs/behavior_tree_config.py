@@ -159,7 +159,7 @@ class BehaviorTreeConfig(ABC):
         else:
             self.tree.control_loop_branch.add_evaluate_debug_expressions(log_traj=True)
         if god_map.is_open_loop():
-            god_map.tree.execute_traj.prepare_base_control.add_compile_debug_expressions()
+            # god_map.tree.execute_traj.prepare_base_control.add_compile_debug_expressions()
             god_map.tree.execute_traj.base_closed_loop.add_evaluate_debug_expressions(log_traj=False)
 
     def add_js_publisher(self, topic_name: Optional[str] = None, include_prefix: bool = False):
