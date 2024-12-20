@@ -56,7 +56,7 @@ class Open(Goal):
                                           tip_link=self.tip_link,
                                           name=f'{self.name}/hold handle',
                                           goal_pose=handle_pose,
-                                          weight=self.weight)
+                                          weight=self.weight*100)
         self.add_task(hold_handle)
         self.expression = cas.logic_and(hinge_goal.expression, hold_handle.expression)
 

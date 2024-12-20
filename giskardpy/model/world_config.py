@@ -214,12 +214,20 @@ class EmptyWorld(WorldConfig):
 
 
 class WorldWithFixedRobot(WorldConfig):
-    def __init__(self, joint_limits: Dict[Derivatives, float] = None):
+    def __init__(self, urdf: str,
+                 joint_limits: Dict[Derivatives, float] = None):
         super().__init__()
+        self.urdf = urdf
         self._joint_limits = joint_limits
 
-    def setup(self, robot_description: str, robot_name: str) -> None:
-        self.add_robot_urdf(robot_description, robot_name)
+    def setup(self, robot_name: Optional[str] = None) -> None:
+        self.add_empty_link(link_name=PrefixName("map"))
+        self.set_default_limits({Derivatives.velocity: 0.3,
+                                 Derivatives.acceleration: np.inf,
+                                 Derivatives.jerk: None})
+        self.add_robot_urdf(self.urdf, robot_name)
+        root_link_name = self.get_root_link_of_group(self.robot_group_name)
+        self.add_fixed_joint(parent_link="map", child_link=root_link_name)
 
 
 class WorldWithOmniDriveRobot(WorldConfig):

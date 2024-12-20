@@ -47,10 +47,12 @@ class InsertCylinder(Goal):
         tip_P_cylinder_bottom = cas.Vector3([0, 0, self.cylinder_height / 2])
         root_P_cylinder_bottom = root_T_tip.dot(tip_P_cylinder_bottom)
         root_P_tip = root_P_tip + root_P_cylinder_bottom
+        god_map.debug_expression_manager.add_debug_expression('banan tip', root_P_tip)
         root_V_cylinder_z = root_T_tip.dot(cas.Vector3([0, 0, -1]))
 
         # %% straight line goal
         root_P_top = root_P_hole + root_V_up * self.pre_grasp_height
+        god_map.debug_expression_manager.add_debug_expression(f'{self.name}/root_P_top', root_P_top)
         distance_to_top = cas.euclidean_distance(root_P_tip, root_P_top)
 
         distance_to_line, root_P_on_line = cas.distance_point_to_line_segment(root_P_tip, root_P_hole, root_P_top)

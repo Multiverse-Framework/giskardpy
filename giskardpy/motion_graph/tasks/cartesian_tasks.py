@@ -185,16 +185,16 @@ class CartesianPoseAsTask(Task):
             root_P_goal = self.update_expression_on_starting(root_P_goal)
             root_R_goal = root_T_x.dot(goal_orientation)
             root_R_goal = self.update_expression_on_starting(root_R_goal)
-
+        print(symbol_manager.evaluate_expr(root_P_goal))
         r_P_c = god_map.world.compose_fk_expression(self.root_link, self.tip_link).to_position()
         self.add_point_goal_constraints(frame_P_goal=root_P_goal,
                                         frame_P_current=r_P_c,
                                         reference_velocity=self.reference_linear_velocity,
                                         weight=self.weight)
-        # god_map.debug_expression_manager.add_debug_expression(f'{self.name}/current_point', r_P_c,
-        #                                                       color=ColorRGBA(r=1.0, g=0.0, b=0.0, a=1.0))
-        # god_map.debug_expression_manager.add_debug_expression(f'{self.name}/goal_point', root_P_goal,
-        #                                                       color=ColorRGBA(r=0.0, g=0.0, b=1.0, a=1.0))
+        god_map.debug_expression_manager.add_debug_expression(f'{self.name}/current_point', r_P_c,
+                                                              color=ColorRGBA(r=1.0, g=0.0, b=0.0, a=1.0))
+        god_map.debug_expression_manager.add_debug_expression(f'{self.name}/goal_point', root_P_goal,
+                                                              color=ColorRGBA(r=0.0, g=0.0, b=1.0, a=1.0))
 
         distance_to_goal = cas.euclidean_distance(root_P_goal, r_P_c)
 
@@ -211,7 +211,7 @@ class CartesianPoseAsTask(Task):
                                                                         rotation_matrix=root_R_goal)
         debug_current_trans_matrix = cas.TransMatrix.from_point_rotation_matrix(point=r_T_c.to_position(),
                                                                                 rotation_matrix=r_R_c)
-        # god_map.debug_expression_manager.add_debug_expression(f'{self.name}/goal_orientation', debug_trans_matrix)
+        god_map.debug_expression_manager.add_debug_expression(f'{self.name}/goal_orientation', debug_trans_matrix)
         # god_map.debug_expression_manager.add_debug_expression(f'{self.name}/current_orientation',
         #                                                       debug_current_trans_matrix)
 
